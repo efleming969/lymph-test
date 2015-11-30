@@ -1,28 +1,5 @@
-var TestReporter = require( "./index" ).TestReporter
 var TestRunner = require( "./index" ).TestRunner
 var SuiteRunner = require( "./index" ).SuiteRunner
-
-
-console.log("======= print report =============")
-
-var report = [
-  {
-    name: "context 1",
-    tests: [
-      { name: "test 1a", asserts: [ "", "fail" ], error: "" },
-      { name: "test 1b", asserts: [ "", "fail" ], error: "" }
-    ]
-  },
-  {
-    name: "context 2",
-    tests: [
-      { name: "test 2a", asserts: [ "fail", "fail" ], error: "" },
-      { name: "test 2b", asserts: [ "", "fail" ], error: "" }
-    ]
-  }
-]
-
-TestReporter.print( report )
 
 console.log("======= running normal suite =============")
 
@@ -69,7 +46,7 @@ var normalSuite = function( suite ) {
 }
 
 TestRunner.run( normalSuite, function( report ) {
-  TestReporter.print( report )
+  console.log( JSON.stringify( report ) )
 } )
 
 console.log("======= suite with exception  =============")
@@ -96,7 +73,7 @@ var suiteWithException = function( suite ) {
 }
 
 TestRunner.run( suiteWithException, function( report ) {
-  TestReporter.print( report )
+  console.log( JSON.stringify( report ) )
 } )
 
 console.log("======= suite runner  =============")
@@ -107,6 +84,6 @@ var suites = {
 }
 
 SuiteRunner.run( suites, function( report ) {
-  TestReporter.print( report )
+  console.log( JSON.stringify( report ) )
 } )
 
