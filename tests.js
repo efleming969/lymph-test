@@ -87,3 +87,25 @@ SuiteRunner.run( suites, function( report ) {
   console.log( JSON.stringify( report ) )
 } )
 
+console.log("======= loggger =============")
+
+var loggingSuite = function( suite ) {
+
+  suite.context( "context 1", function( ctx ) {
+
+    ctx.test( "test 1a", function( test ) {
+      test.log( { name:"foo" } )
+      test.assert( "" )
+      test.done()
+    } )
+
+    ctx.done()
+
+  } )
+
+  suite.done()
+}
+
+TestRunner.run( loggingSuite, function( report ) {
+  console.log( JSON.stringify( report ) )
+} )
