@@ -43,80 +43,82 @@ var diffForConsole = function( msg, a, b )
   )
 }
 
-exports.run = function( logger, name, givens )
-{
-  Object.keys( givens ).forEach(
-    function( given )
-    {
-      givens[ given ](
-        function( whens )
-        {
-          Object.keys( whens ).forEach(
-            function( when )
-            {
-              var thenWasCalled = false
+exports.run = R.curry(
+  function( logger, name, givens )
+  {
+    Object.keys( givens ).forEach(
+      function( given )
+      {
+        givens[ given ](
+          function( whens )
+          {
+            Object.keys( whens ).forEach(
+              function( when )
+              {
+                var thenWasCalled = false
 
-              whens[ when ](
-                function( thens )
+                whens[ when ](
+                  function( thens )
+                  {
+                    thenWasCalled = true
+
+                    Object.keys( thens ).forEach(
+                      function( then )
+                      {
+                        if( thens[ then ].length === 2 )
+                        {
+                          if( equals( thens[ then ][ 0 ], thens[ then ][ 1 ] ) )
+                          {
+                            logger.log( name + ": " + given + " ! " + when + " > " + then )
+                          }
+                          else
+                          {
+                            logger.log(
+                              name + ": " + given + " ! " + when + " > " + then + ": "
+                            , thens[ then ][ 0 ]
+                            , thens[ then ][ 1 ]
+                            )
+                          }
+                        }
+                        else if ( thens[ then ].length === 1 )
+                        {
+                          if ( Boolean( thens[ then ][ 0 ] ) )
+                          {
+                            logger.log( name + ": " + given + " ! " + when + " > " + then )
+                          }
+                          else
+                          {
+                            logger.log( name + ": " + given + " ! " + when + " > " + then + ": " + thens[ then ][ 1 ]  )
+                          }
+                        }
+                        else
+                        {
+                          logger.log( "not implemented" )
+                        }
+                      }
+                    )
+                  }
+                )
+
+                if ( thenWasCalled === false )
                 {
-                  thenWasCalled = true
-
-                  Object.keys( thens ).forEach(
-                    function( then )
+                  setTimeout(
+                    function()
                     {
-                      if( thens[ then ].length === 2 )
+                      if ( thenWasCalled === false )
                       {
-                        if( equals( thens[ then ][ 0 ], thens[ then ][ 1 ] ) )
-                        {
-                          logger.log( name + ": " + given + " ! " + when + " > " + then )
-                        }
-                        else
-                        {
-                          logger.log(
-                            name + ": " + given + " ! " + when + " > " + then + ": "
-                          , thens[ then ][ 0 ]
-                          , thens[ then ][ 1 ]
-                          )
-                        }
+                        logger.log( name + ": " + given + " ! " + when + " > INCOMPLETE" )
                       }
-                      else if ( thens[ then ].length === 1 )
-                      {
-                        if ( Boolean( thens[ then ][ 0 ] ) )
-                        {
-                          logger.log( name + ": " + given + " ! " + when + " > " + then )
-                        }
-                        else
-                        {
-                          logger.log( name + ": " + given + " ! " + when + " > " + then + ": " + thens[ then ][ 1 ]  )
-                        }
-                      }
-                      else
-                      {
-                        logger.log( "not implemented" )
-                      }
-                    }
+                    },
+                    1000
                   )
                 }
-              )
-
-              if ( thenWasCalled === false )
-              {
-                setTimeout(
-                  function()
-                  {
-                    if ( thenWasCalled === false )
-                    {
-                      logger.log( name + ": " + given + " ! " + when + " > INCOMPLETE" )
-                    }
-                  },
-                  1000
-                )
               }
-            }
-          )
-        }
-      )
-    }
-  )
-}
+            )
+          }
+        )
+      }
+    )
+  }
+)
 

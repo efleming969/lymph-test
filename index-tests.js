@@ -15,10 +15,10 @@ TestLogger.prototype.log = function( msg, a, b )
 }
 
 var testLogger = new TestLogger()
+var runWithTestLogger = LymphTest.run( testLogger )
 
-LymphTest.run(
-  testLogger
-, 'g'
+runWithTestLogger(
+  'g'
 , { 'w': function( when )
     {
       when(
