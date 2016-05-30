@@ -2,7 +2,7 @@
   "name": "lymph-test",
   "version": "1.0.0",
   "description": "a very simple test framework without using exceptions",
-  "main": "index.js",
+  "main": "/lib/core.js",
   "scripts": {
     "test": "nodemon index-tests.js"
   },
