@@ -6,9 +6,12 @@ var TestLogger = function()
   this.messages = []
 }
 
-TestLogger.prototype.log = function( msg )
+TestLogger.prototype.log = function( msg, a, b )
 {
-  this.messages.push( msg )
+  if ( a === undefined && b === undefined )
+    this.messages.push( msg )
+  else
+    this.messages.push( msg + a + '|' + b )
 }
 
 var testLogger = new TestLogger()
@@ -63,15 +66,11 @@ setTimeout(
       ]
     )
 
-    if ( success )
+    if ( !success )
     {
-      console.log( '!!!!!' )
-    }
-    else
-    {
-      console.log( '======' )
+      console.log( '=================' )
       console.log( testLogger.messages )
-      console.log( '======' )
+      console.log( '=================' )
     }
   }
 )

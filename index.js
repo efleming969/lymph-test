@@ -72,14 +72,11 @@ exports.run = function( logger, name, givens )
                         }
                         else
                         {
-                          logger.log( name + ": " + given + " ! " + when + " > " + then + ": bar|foo" )
-                          // logger.log(
-                          //   diffForConsole(
-                          //     name + ": " + given + " ! " + when + " > " + then + ": "
-                          //   , thens[ then ][ 0 ]
-                          //   , thens[ then ][ 1 ]
-                          //   )
-                          // )
+                          logger.log(
+                            name + ": " + given + " ! " + when + " > " + then + ": "
+                          , thens[ then ][ 0 ]
+                          , thens[ then ][ 1 ]
+                          )
                         }
                       }
                       else if ( thens[ then ].length === 1 )
