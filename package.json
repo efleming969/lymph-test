@@ -4,7 +4,7 @@
   "description": "a very simple test framework without using exceptions",
   "main": "/lib/core.js",
   "scripts": {
-    "test": "nodemon index-tests.js"
+    "test": "nodemon tests.js"
   },
   "author": "",
   "license": "ISC",
