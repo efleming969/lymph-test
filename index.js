@@ -43,7 +43,7 @@ var diffForConsole = function( msg, a, b )
   )
 }
 
-exports.run = function( name, givens )
+exports.run = function( logger, name, givens )
 {
   Object.keys( givens ).forEach(
     function( given )
@@ -68,33 +68,34 @@ exports.run = function( name, givens )
                       {
                         if( equals( thens[ then ][ 0 ], thens[ then ][ 1 ] ) )
                         {
-                          console.log( name + ": " + given + " ! " + when + " > " + then )
+                          logger.log( name + ": " + given + " ! " + when + " > " + then )
                         }
                         else
                         {
-                          console.warn.apply(
-                            console,
-                            diffForConsole(
-                              name + ": " + given + " ! " + when + " > " + then + ": ",
-                              thens[ then ][ 0 ], thens[ then ][ 1 ]
-                            )
-                          )
+                          logger.log( name + ": " + given + " ! " + when + " > " + then + ": bar|foo" )
+                          // logger.log(
+                          //   diffForConsole(
+                          //     name + ": " + given + " ! " + when + " > " + then + ": "
+                          //   , thens[ then ][ 0 ]
+                          //   , thens[ then ][ 1 ]
+                          //   )
+                          // )
                         }
                       }
                       else if ( thens[ then ].length === 1 )
                       {
                         if ( Boolean( thens[ then ][ 0 ] ) )
                         {
-                          console.log( name + ": " + given + " ! " + when + " > " + then )
+                          logger.log( name + ": " + given + " ! " + when + " > " + then )
                         }
                         else
                         {
-                          console.warn( name + ": " + given + " ! " + when + " > " + then + ": " + thens[ then ][ 1 ]  )
+                          logger.log( name + ": " + given + " ! " + when + " > " + then + ": " + thens[ then ][ 1 ]  )
                         }
                       }
                       else
                       {
-                        console.log( "not implemented" )
+                        logger.log( "not implemented" )
                       }
                     }
                   )
@@ -103,13 +104,13 @@ exports.run = function( name, givens )
 
               if ( thenWasCalled === false )
               {
-                console.log( name + ": waiting..." )
+                logger.log( name + ": waiting..." )
                 setTimeout(
                   function()
                   {
                     if ( thenWasCalled === false )
                     {
-                      console.warn( name + ": " + given + " ! " + when + " > INCOMPLETE" )
+                      logger.log( name + ": " + given + " ! " + when + " > INCOMPLETE" )
                     }
                   },
                   1000
@@ -122,3 +123,4 @@ exports.run = function( name, givens )
     }
   )
 }
+

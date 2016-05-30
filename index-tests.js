@@ -1,111 +1,56 @@
-var TestRunner = require( "./index" ).TestRunner
-var SuiteRunner = require( "./index" ).SuiteRunner
+var LymphTest = require( './index' )
+var equals = require( 'equals' )
 
-console.log("======= running normal suite =============")
-
-var normalSuite = function( suite ) {
-
-  suite.context( "context 1", function( ctx ) {
-
-    ctx.test( "test 1a", function( test ) {
-      test.assert( "" )
-      test.assert( "fail" )
-      test.done()
-    } )
-
-    ctx.test( "test 1b", function( test ) {
-      test.assert( "fail" )
-      test.assert( "fail" )
-      test.done()
-    } )
-
-    ctx.done()
-
-  } )
-
-  suite.context( "context 2", function( ctx ) {
-
-    ctx.test( "test 2a", function( test ) {
-      test.assert( "fail" )
-      test.done()
-    } )
-
-    ctx.test( "test 2b", function( test ) {
-      test.assert( "" )
-      setTimeout( function() {
-        test.assert( "fail" )
-        test.done()
-      }, 200 )
-    } )
-
-    ctx.done()
-
-  } )
-
-  suite.done()
+var TestLogger = function()
+{
+  this.messages = []
 }
 
-TestRunner.run( normalSuite, function( report ) {
-  console.log( JSON.stringify( report ) )
-} )
-
-console.log("======= suite with exception  =============")
-
-var suiteWithException = function( suite ) {
-
-  suite.context( "context", function( ctx ) {
-
-    ctx.test( "test without exception", function( test ) {
-      test.assert( "" )
-      test.done()
-    } )
-
-    ctx.test( "test with exception", function( test ) {
-      throw "fail"
-      test.done()
-    } )
-
-    ctx.done()
-
-  } )
-
-  suite.done()
+TestLogger.prototype.log = function( msg )
+{
+  this.messages.push( msg )
 }
 
-TestRunner.run( suiteWithException, function( report ) {
-  console.log( JSON.stringify( report ) )
-} )
+var testLogger = new TestLogger()
 
-console.log("======= suite runner  =============")
+LymphTest.run(
+  testLogger
+, 'g'
+, { 'w': function( when )
+    {
+      when(
+        { 'checking a true value': function( then )
+          {
+            then( { 'p': [ true ] } )
+          }
+        , 'checking a false value': function( then )
+          {
+            then( { 'f': [ false ] } )
+          }
+        , 'comparing 2 equal strings': function( then )
+          {
+            then( { 'p': [ 'foo', 'foo' ] } )
+          }
+        , 'comparing 2 different strings': function( then )
+          {
+            then( { 'f': [ 'bar', 'foo' ] } )
+          }
+        }
+      )
+    }
+  }
+)
 
-var suites = {
-  suite1: require( "./suite1" ),
-  suite2: require( "./suite2" )
-}
+console.log( testLogger.messages )
 
-SuiteRunner.run( suites, function( report ) {
-  console.log( JSON.stringify( report ) )
-} )
+console.assert(
+  equals(
+    testLogger.messages
+  , [ 'g: w ! checking a true value > p'
+    , 'g: w ! checking a false value > f: undefined'
+    , 'g: w ! comparing 2 equal strings > p'
+    , 'g: w ! comparing 2 different strings > f: bar|foo'
+    ]
+  )
+)
 
-console.log("======= loggger =============")
-
-var loggingSuite = function( suite ) {
-
-  suite.context( "context 1", function( ctx ) {
-
-    ctx.test( "test 1a", function( test ) {
-      test.log( { name:"foo" } )
-      test.assert( "" )
-      test.done()
-    } )
-
-    ctx.done()
-
-  } )
-
-  suite.done()
-}
-
-TestRunner.run( loggingSuite, function( report ) {
-  console.log( JSON.stringify( report ) )
-} )
