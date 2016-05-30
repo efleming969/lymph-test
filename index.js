@@ -104,7 +104,6 @@ exports.run = function( logger, name, givens )
 
               if ( thenWasCalled === false )
               {
-                logger.log( name + ": waiting..." )
                 setTimeout(
                   function()
                   {

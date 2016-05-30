@@ -35,22 +35,44 @@ LymphTest.run(
           {
             then( { 'f': [ 'bar', 'foo' ] } )
           }
+        , 'calling something async': function( then )
+          {
+            setTimeout(
+              function()
+              {
+                then( { 't': [ true ] } )
+              }
+            )
+          }
         }
       )
     }
   }
 )
 
-console.log( testLogger.messages )
+setTimeout(
+  function()
+  {
+    var success = equals(
+      testLogger.messages
+    , [ 'g: w ! checking a true value > p'
+      , 'g: w ! checking a false value > f: undefined'
+      , 'g: w ! comparing 2 equal strings > p'
+      , 'g: w ! comparing 2 different strings > f: bar|foo'
+      , 'g: w ! calling something async > t'
+      ]
+    )
 
-console.assert(
-  equals(
-    testLogger.messages
-  , [ 'g: w ! checking a true value > p'
-    , 'g: w ! checking a false value > f: undefined'
-    , 'g: w ! comparing 2 equal strings > p'
-    , 'g: w ! comparing 2 different strings > f: bar|foo'
-    ]
-  )
+    if ( success )
+    {
+      console.log( '!!!!!' )
+    }
+    else
+    {
+      console.log( '======' )
+      console.log( testLogger.messages )
+      console.log( '======' )
+    }
+  }
 )
 
