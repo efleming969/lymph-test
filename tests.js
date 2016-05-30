@@ -1,1 +1,1 @@
-require( './lib/core-tests')
+require( './lib/CoreTests')
