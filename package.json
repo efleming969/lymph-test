@@ -1,12 +1,16 @@
 {
   "name": "lymph-test",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "a very simple test framework without using exceptions",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon tests.js"
+    "test": "node tests.js"
   },
-  "author": "",
+  "author": {
+    "name": "Erick Fleming",
+    "email": "efleming969@gmail.com",
+    "url": "http://commentsincode.net"
+  },
   "license": "ISC",
   "dependencies": {
     "ramda": "^0.21.0",
