@@ -1,4 +1,4 @@
 module.exports = {
-  Core: require( './lib/Core' ),
-  BrowserLogging: require( './lib/BrowserLogging' )
+  Core: require( './Core' ),
+  BrowserLogging: require( './BrowserLogging' )
 }
