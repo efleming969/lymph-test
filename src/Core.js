@@ -22,7 +22,7 @@ exports.run = R.curry(
                             logger.log( name + ": " + given + " ! " + when + " > " + then )
                           }
                           else {
-                            logger.log(
+                            logger.warn(
                               name + ": " + given + " ! " + when + " > " + then + ": "
                             , thens[ then ][ 0 ]
                             , thens[ then ][ 1 ] )
@@ -33,11 +33,11 @@ exports.run = R.curry(
                             logger.log( name + ": " + given + " ! " + when + " > " + then )
                           }
                           else {
-                            logger.log( name + ": " + given + " ! " + when + " > " + then + ": " + thens[ then ][ 1 ]  )
+                            logger.warn( name + ": " + given + " ! " + when + " > " + then + ": " + thens[ then ][ 1 ]  )
                           }
                         }
                         else {
-                          logger.log( "not implemented" )
+                          logger.error( "not implemented" )
                         }
                       } )
                     numberOfWhensCalled += 1

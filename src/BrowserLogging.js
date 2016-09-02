@@ -45,4 +45,7 @@ exports.logger = {
   log: function( msg, a, b ) {
     console.log.apply( console, formatMessage( msg, a, b ) )
   }
+, warn: function( msg, a, b ) {
+    console.warn.apply( console, formatMessage( msg, a, b ) )
+  }
 }
