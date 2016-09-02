@@ -1,9 +1,9 @@
 console.log( 'index-tests' )
 
-var Core = require( './Core' )
-var BrowserLogging = require( './BrowserLogger' )
+var LymphTest = require( './index' )
 
-var run = Core.run( BrowserLogging.logger )
+var run = LymphTest.Core.run( LymphTest.BrowserLogging.logger )
 
 run( 'core', require( './CoreTests' ) )
-run( 'browser logging', require( './BrowserLoggingTests' ) )
+// run( 'browser logging', require( './BrowserLoggingTests' ) )
+

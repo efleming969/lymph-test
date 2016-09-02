@@ -1,55 +1,45 @@
 var R = require( "ramda" )
 var equals = require( "equals" )
 
-exports.run = R.curry(
-  function( logger, name, givens ) {
-    var numberOfWhens = 0
-    var numberOfWhensCalled = 0
+exports.run = R.curry( function( logger, name, tests ) {
+  var numberOfTests = 0
+  var numberOfTestsCalled = 0
 
-    Object.keys( givens ).forEach(
-      function( given ) {
-        givens[ given ](
-          function( whens ) {
-            Object.keys( whens ).forEach(
-              function( when ) {
-                whens[ when ](
-                  function( thens ) {
-                    numberOfWhens += 1
-                    Object.keys( thens ).forEach(
-                      function( then ) {
-                        if( thens[ then ].length === 2 ) {
-                          if( equals( thens[ then ][ 0 ], thens[ then ][ 1 ] ) ) {
-                            logger.log( name + ": " + given + " ! " + when + " > " + then )
-                          }
-                          else {
-                            logger.warn(
-                              name + ": " + given + " ! " + when + " > " + then + ": "
-                            , thens[ then ][ 0 ]
-                            , thens[ then ][ 1 ] )
-                          }
-                        }
-                        else if ( thens[ then ].length === 1 ) {
-                          if ( Boolean( thens[ then ][ 0 ] ) ) {
-                            logger.log( name + ": " + given + " ! " + when + " > " + then )
-                          }
-                          else {
-                            logger.warn( name + ": " + given + " ! " + when + " > " + then + ": " + thens[ then ][ 1 ]  )
-                          }
-                        }
-                        else {
-                          logger.error( "not implemented" )
-                        }
-                      } )
-                    numberOfWhensCalled += 1
-                  } )
-              } )
+  Object.keys( tests ).forEach( function( test ) {
+    tests[ test ]( function( asserts ) {
+        numberOfTests += 1
+        Object.keys( asserts ).forEach( function( assert ) {
+            if( asserts[ assert ].length === 2 ) {
+              if( equals( asserts[ assert ][ 0 ], asserts[ assert ][ 1 ] ) ) {
+                logger.log( name + ": " + test + " > " + assert )
+              }
+              else {
+                logger.warn(
+                  name + ": " + test + " > " + assert + ": "
+                , asserts[ assert ][ 0 ]
+                , asserts[ assert ][ 1 ] )
+              }
+            }
+            else if ( asserts[ assert ].length === 1 ) {
+              if ( Boolean( asserts[ assert ][ 0 ] ) ) {
+                logger.log( name + ": " + test + " > " + assert )
+              }
+              else {
+                logger.warn( name + ": " + test + " > " + assert + ": " + asserts[ assert ][ 1 ]  )
+              }
+            }
+            else {
+              logger.error( "not implemented" )
+            }
           } )
+        numberOfTestsCalled += 1
       } )
+  } )
 
-    var interval = setInterval( function() {
-      if ( numberOfWhens == numberOfWhensCalled ) {
-        clearInterval( interval )
-      }
-    }, 100 )
+  var interval = setInterval( function() {
+    if ( numberOfTests == numberOfTestsCalled ) {
+      clearInterval( interval )
+    }
+  }, 100 )
   } )
 

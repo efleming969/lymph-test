@@ -1,10 +1,10 @@
 {
   "name": "lymph-test",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "a very simple test framework without using exceptions",
   "main": "src/index.js",
   "scripts": {
-    "start": "lymph-builder"
+    "start": "lymph-builder dev"
   },
   "author": {
     "name": "Erick Fleming",
@@ -20,9 +20,11 @@
   "devDependencies": {
     "lymph-builder": "file:///home/erick/Projects/builder"
   },
-  "lymphBuilder": {
-    "basePath": "src",
-    "index": "index-tests.js",
+  "lymph": {
+    "api_url": {
+      "dev": "",
+      "prod": ""
+    },
     "dependencies": [
       "ramda",
       "diff",
