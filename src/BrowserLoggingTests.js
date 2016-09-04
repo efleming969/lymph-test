@@ -2,33 +2,26 @@ var BrowserLogging = require( './BrowserLogging' )
 
 module.exports = {
 
-  'g': function( when ) {
+  'formatting a failing test': function( assert ) {
 
-    when( {
+    var actual = BrowserLogging.formatMessage( 'not same', 'foo', 'bar' )
 
-      'formatting a failing test': function( then ) {
+    var expected = [
+        '%cnot same%cfoo|%cbar'
+      , 'color:black'
+      , 'color:red'
+      , 'color:green'
+      ] 
 
-        var actual = BrowserLogging.formatMessage( 'not same', 'foo', 'bar' )
+    assert( { 'msg should be': [ actual , expected ] } )
+  } 
 
-        var expected = [
-            '%cnot same%cfoo|%cbar'
-          , 'color:black'
-          , 'color:red'
-          , 'color:green'
-          ] 
+, 'given undefined values': function( assert ) {
 
-        then( { 'msg should be': [ actual , expected ] } )
-      } 
+    var actual = BrowserLogging.formatMessage( '', undefined, undefined )
+    var expected = [ '' ] 
 
-    , 'given undefined values': function( then ) {
-
-        var actual = BrowserLogging.formatMessage( '', undefined, undefined )
-        var expected = [ '' ] 
-
-        then( { 'msg should be': [ actual , expected ] } )
-      } 
-
-    } )
-  }
+    assert( { 'msg should be': [ actual , expected ] } )
+  } 
 
 }

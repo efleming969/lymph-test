@@ -42,9 +42,7 @@ var formatMessage = exports.formatMessage = function( msg, a, b ) {
 }
 
 exports.logger = {
-  log: function( msg, a, b ) {
-    console.log.apply( console, formatMessage( msg, a, b ) )
-  }
+  log: console.log.bind( console )
 , warn: function( msg, a, b ) {
     console.warn.apply( console, formatMessage( msg, a, b ) )
   }
