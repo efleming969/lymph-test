@@ -2,7 +2,7 @@ var R = require( 'ramda' )
 var JSDiff = require( 'diff')
 var Chalk = require( 'chalk' )
 
-var formatMessage = exports.formatMessage = function( msg, a, b ) {
+var formatDiffs = exports.formatMessage = function( a, b ) {
 
   var colored = function( part ) {
     if( part.added )
@@ -20,10 +20,6 @@ var formatMessage = exports.formatMessage = function( msg, a, b ) {
       return JSDiff.diffJson( a, b )
   }
 
-  if ( a == undefined || b == undefined ) {
-    return [ msg ]
-  }
-
   var diffs = getDiffs( a, b )
 
   return R.prepend( msg, R.map( colored, diffs ) )
@@ -32,6 +28,6 @@ var formatMessage = exports.formatMessage = function( msg, a, b ) {
 exports.logger = {
   log: console.log.bind( console )
 , warn: function( msg, a, b ) {
-    console.warn.apply( console, formatMessage( msg, a, b ) )
+    console.log( Chalk.bgRed( msg ), formatDiffs( a, b ) )
   }
 }
