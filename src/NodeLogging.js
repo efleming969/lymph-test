@@ -16,11 +16,14 @@ var formatDiffs = exports.formatMessage = function( a, b ) {
   var getDiffs = function( a, b ) {
     if ( typeof a === 'string' )
       return JSDiff.diffChars( a, b )
+    else if ( a == undefined && b == undefined )
+      return [] 
     else
       return JSDiff.diffJson( a, b )
   }
 
   var diffs = getDiffs( a, b )
+  var msg = ""
 
   return R.prepend( msg, R.map( colored, diffs ) )
 }
