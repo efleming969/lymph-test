@@ -1,6 +1,6 @@
 {
   "name": "lymph-test",
-  "version": "0.15.2",
+  "version": "0.16.0",
   "description": "a very simple test framework without using exceptions",
   "main": "src/index.js",
   "scripts": {},
